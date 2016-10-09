@@ -207,15 +207,27 @@ class Canvas
 		 * Set transparent pixel
 		 */
 		$iterator = $image->getPixelIterator();
-		$iterator->setIteratorRow( $image->getImageHeight() - 1 );
 
-		/* Get pixels in row */
+		/* Set pixels in first rows */
+		$iterator->setIteratorFirstRow();
 		$row = $iterator->getCurrentIteratorRow();
 
 		$pixel = $row[0];
 		$pixel->setColor( "#ffffff00");
+		$pixel = $row[ count( $row ) - 1 ];
+		$pixel->setColor( "#ffffff00");
 
-		/* Sync data back to image */
+		$iterator->syncIterator();
+
+		/* Set pixels in last rows */
+		$iterator->setIteratorLastRow();
+		$row = $iterator->getCurrentIteratorRow();
+
+		$pixel = $row[0];
+		$pixel->setColor( "#ffffff00");
+		$pixel = $row[ count( $row ) - 1 ];
+		$pixel->setColor( "#ffffff00");
+
 		$iterator->syncIterator();
 
 		/*
