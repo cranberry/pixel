@@ -165,6 +165,14 @@ class Canvas
 	}
 
 	/**
+	 * @return	int
+	 */
+	public function getCols()
+	{
+		return $this->cols / $this->pixelSize;
+	}
+
+	/**
 	 * @return	Imagick
 	 */
 	public function getImage()
@@ -194,6 +202,22 @@ class Canvas
 		}
 
 		return $this->image;
+	}
+
+	/**
+	 * @return	int
+	 */
+	public function getPixelSize()
+	{
+		return $this->pixelSize;
+	}
+
+	/**
+	 * @return	int
+	 */
+	public function getRows()
+	{
+		return $this->rows / $this->pixelSize;
 	}
 
 	/**
