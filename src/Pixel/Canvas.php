@@ -67,11 +67,11 @@ class Canvas
 	 * @param	int						$yOffset
 	 * @param	int						$compose
 	 */
-	public function compositeCanvas( Canvas $canvas, $xOffset, $yOffset, $compose=Imagick::COMPOSITE_DEFAULT )
+	public function compositeCanvas( Canvas $canvas, $offsetCol, $offsetRow, $compose=Imagick::COMPOSITE_DEFAULT )
 	{
 		$layer['canvas'] = $canvas;
-		$layer['xOffset'] = $xOffset;
-		$layer['yOffset'] = $yOffset;
+		$layer['xOffset'] = $offsetCol * $this->pixelSize;
+		$layer['yOffset'] = $offsetRow * $this->pixelSize;
 		$layer['compose'] = $compose;
 
 		$this->layers[] = $layer;
