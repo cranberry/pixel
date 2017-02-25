@@ -47,6 +47,21 @@ class Canvas
 	protected $shouldDraw;
 
 	/**
+	 * @var	Cranberry\Pixel\Mask
+	 */
+	protected $stencil;
+
+	/**
+	 * @var	int
+	 */
+	protected $stencilColOffset;
+
+	/**
+	 * @var	int
+	 */
+	protected $stencilRowOffset;
+
+	/**
 	 * @param	int		$cols
 	 * @param	int		$rows
 	 * @param	int		$pixelSize
@@ -62,7 +77,19 @@ class Canvas
 	}
 
 	/**
-	 * @param	Huxtable\Pixel\Canvas	$canvas
+	 * @param	Cranberry\Pixel\Mask	$stencil
+	 * @param	int						$colOffset
+	 * @param	int						$rowOffset
+	 */
+	public function applyStencil( Mask $stencil, $colOffset, $rowOffset )
+	{
+		$this->stencil = $stencil;
+		$this->stencilColOffset = $colOffset;
+		$this->stencilRowOffset = $rowOffset;
+	}
+
+	/**
+	 * @param	Cranberry\Pixel\Canvas	$canvas
 	 * @param	int						$xOffset
 	 * @param	int						$yOffset
 	 * @param	int						$compose
@@ -107,6 +134,32 @@ class Canvas
 		if( $y2 < 0 || $y2 >= $this->rows )
 		{
 			return false;
+		}
+
+		/*
+		 * Stencil
+		 */
+		if( $this->stencil != null )
+		{
+			$minStencilCol = $this->stencilColOffset;
+			$maxStencilCol = $this->stencilColOffset + $this->stencil->getCols();
+			$minStencilRow = $this->stencilRowOffset;
+			$maxStencilRow = $this->stencilRowOffset + $this->stencil->getRows();
+
+			if( $col >= $minStencilCol && $col <= $maxStencilCol )
+			{
+				if( $row >= $minStencilRow && $row <= $maxStencilRow )
+				{
+					$relativeStencilCol = $col - $this->stencilColOffset;
+					$relativeStencilRow = $row - $this->stencilRowOffset;
+
+					/* The stencil mask is filled at this point, so we won't draw */
+					if( $this->stencil->isFilledAt( $relativeStencilCol, $relativeStencilRow ) )
+					{
+						return false;
+					}
+				}
+			}
 		}
 
 		$this->draw->rectangle( $x1, $y1, $x2, $y2 );
@@ -221,7 +274,17 @@ class Canvas
 	}
 
 	/**
-	 * @param	Huxtable\Core\File\File		$imageFile
+	 *
+	 */
+	public function removeStencil()
+	{
+		$this->stencil = null;
+		$this->stencilColOffset = null;
+		$this->stencilRowOffset = null;
+	}
+
+	/**
+	 * @param	Cranberry\Core\File\File		$imageFile
 	 */
 	public function render( File\File $imageFile )
 	{
