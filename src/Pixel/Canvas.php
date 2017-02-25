@@ -208,6 +208,28 @@ class Canvas
 	}
 
 	/**
+	 * @param	Cranberry\Pixel\Mask	$mask
+	 * @param	string					$color
+	 * @param	int						$colOffset
+	 * @param	int						$rowOffset
+	 */
+	public function drawWithMask( Mask $mask, $color, $colOffset, $rowOffset )
+	{
+		$maskPixels = $mask->getPixels();
+
+		foreach( $maskPixels as $row => $cols )
+		{
+			foreach( $cols as $col => $fill )
+			{
+				if( $fill )
+				{
+					$this->drawAt( ($colOffset + $col), ($rowOffset + $row), $color );
+				}
+			}
+		}
+	}
+
+	/**
 	 * @param	int		$col
 	 * @param	int		$row
 	 * @param	string	$color
