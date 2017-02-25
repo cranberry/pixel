@@ -281,6 +281,25 @@ class Canvas
 	}
 
 	/**
+	 * @param	int						$col1
+	 * @param	int						$row1
+	 * @param	int						$cols
+	 * @param	int						$rows
+	 * @param	Cranberry\Pixel\Mask	$mask
+	 * @param	string					$color
+	 */
+	public function fillAreaWithMask( $col1, $row1, $col2, $row2, Mask $mask, $color )
+	{
+		for( $col = $col1; $col <= $col2; $col = $col + $mask->getCols() )
+		{
+			for( $row = $row1; $row <= $row2; $row = $row + $mask->getRows() )
+			{
+				$this->drawWithMask( $mask, $color, $col, $row );
+			}
+		}
+	}
+
+	/**
 	 * @return	int
 	 */
 	public function getCols()
