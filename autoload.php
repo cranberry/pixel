@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of Huxtable\Pixel
+ * This file is part of Cranberry\Pixel
  */
-namespace Huxtable\Pixel;
+namespace Cranberry\Pixel;
 
 $pathBasePixel	= __DIR__;
 $pathSrcPixel	= $pathBasePixel . '/src/Pixel';

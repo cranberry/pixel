@@ -1,11 +1,11 @@
 <?php
 
 /*
- * This file is part of Huxtable\Pixel
+ * This file is part of Cranberry\Pixel
  */
-namespace Huxtable\Pixel;
+namespace Cranberry\Pixel;
 
-use Huxtable\Core\File;
+use Cranberry\Core\File;
 use Imagick;
 use ImagickDraw;
 
