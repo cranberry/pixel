@@ -167,6 +167,47 @@ class Canvas
 	}
 
 	/**
+	* @param	int		$col1
+	* @param	int		$row1
+	* @param	int		$col2
+	* @param	int		$row2
+	* @param	string	$color
+	 */
+	public function drawLine( $col1, $row1, $col2, $row2, $color )
+	{
+		$rise = ($row2 - $row1);
+		$run = ($col2 - $col1);
+		$slope = $run != 0 ? $rise / $run : null;
+		$rowIntercept = $row1 - ($slope * $col1);
+
+		/* Vertical line */
+		if( $slope === null )
+		{
+			for( $row = $row1; $row <= $row2; $row++ )
+			{
+				$this->drawAt( $col1, $row, $color );
+			}
+
+			return;
+		}
+
+		if( $slope > 1 || $slope < 0 )
+		{
+			for( $row = $row1; $row <= $row2; $row++ )
+			{
+				$col = ceil( ($row - $rowIntercept) / $slope );
+				$this->drawAt( $col, $row, $color );
+			}
+		}
+
+		for( $col = $col1; $col <= $col2; $col++ )
+		{
+			$row = floor( $slope * $col + $rowIntercept );
+			$this->drawAt( $col, $row, $color );
+		}
+	}
+
+	/**
 	 * @param	int		$col
 	 * @param	int		$row
 	 * @param	string	$color
