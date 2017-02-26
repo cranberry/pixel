@@ -56,6 +56,28 @@ class Mask
 	}
 
 	/**
+	 * @param	Cranberry\Pixel\Mask	$mask
+	 * @param	string					$color
+	 * @param	int						$colOffset
+	 * @param	int						$rowOffset
+	 */
+	public function clearMask( Mask $mask, $colOffset, $rowOffset )
+	{
+		$maskPixels = $mask->getPixels();
+
+		foreach( $maskPixels as $row => $cols )
+		{
+			foreach( $cols as $col => $enabled )
+			{
+				if( $enabled == true )
+				{
+					$this->clearAt( $col + $colOffset, $row + $rowOffset );
+				}
+			}
+		}
+	}
+
+	/**
 	 * @param	int			$col
 	 * @param	int			$row
 	 */
